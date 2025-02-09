@@ -1,0 +1,80 @@
+﻿@{
+    var status = Context.Request.Query["status"];
+    var inprocess= "";
+    var pending = "";
+    var completed = "";
+    var approved = "";
+    var all = "";
+    switch (status)
+    {
+        case CONSTS.STATUS_IN_PROCESS:
+            inprocess = "active";
+            break;
+        case CONSTS.PAYMENT_STATUS_PENDING:
+            pending = "active";
+            break;
+        case CONSTS.STATUS_SHIPPED:
+            completed = "active";
+            break;
+        case CONSTS.STATUS_APPROVED:
+            approved = "active";
+            break;
+        default:
+            all = "active";
+            break;
+    }
+}
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2>
+                Orders List
+            </h2>
+        </div>
+    </div>
+</div>
+<div id="status" hidden data-value="@status"></div>
+<div class="card-body p-4">
+    <div class="d-flex justify-content-between pb-5 pt-2">
+        <span></span>
+        <ul class="list-group list-group-horizontal-sm">
+            <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="@CONSTS.STATUS_IN_PROCESS">
+                <li class="list-group-item @inprocess">In Process</li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="@CONSTS.PAYMENT_STATUS_PENDING">
+            <li class="list-group-item @pending">Pending</li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="@CONSTS.STATUS_SHIPPED">
+            <li class="list-group-item @completed">Completed</li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="@CONSTS.STATUS_APPROVED">
+            <li class="list-group-item @approved">Approved</li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="All">
+                <li class="list-group-item @all">All</li>
+            </a>
+        </ul>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped" id="myTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Order Status</th>
+            <th>Order Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/order.js"></script>
+}

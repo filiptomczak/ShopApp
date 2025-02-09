@@ -1,0 +1,65 @@
+﻿@model UserVM
+
+<form method="post">
+    <input asp-for="User.Id" hidden/>
+    <div class="border-bottom p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="">Role Managment</h2>
+            <hr />
+        </div>
+        @* <div asp-validation-summary="All"></div> *@
+        <div class="mb-3 row p-1">
+            <label asp-for="User.Name"></label>
+            <input asp-for="User.Name" type="text" class="form-control" value="@Model.User.Name" readonly/>
+            <span asp-validation-for="User.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="User.Role"></label>
+            <select id="RoleSelect" asp-for="User.Role" asp-items="@Model.RoleList" type="text" class="form-select">
+                <option disabled selected>Select Role</option>
+            </select>
+        </div>
+        @{
+            var style = "none";
+            if(Model.User.Role==CONSTS.ROLE_COMPANY)
+            {
+                style = "block;";
+            }
+            <div class="mb-3 row p-1" id="CompanySelect" style="display: @style">
+                <select asp-for="@Model.User.CompanyId" asp-items="@Model.CompanyList" type="text" class="form-select">
+                    <option disabled selected>Select Company</option>
+                </select>
+            </div>
+        }
+        
+
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">Update</button>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <a asp-controller="User" asp-action="Index" class="btn btn-secondary form-control">Back</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        document.getElementById("RoleSelect").addEventListener("change", function () {
+            let selectedValue = this.value;
+            console.log(selectedValue)
+            let companySelect = document.getElementById("CompanySelect");
+
+            if (selectedValue === "Company") {
+                companySelect.style.display = "block";
+            } else {
+                companySelect.style.display = "none";
+            }
+        })
+    </script>
+}
